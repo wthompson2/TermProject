@@ -65,7 +65,8 @@ public class Player : MonoBehaviour
         {
             playerMovement.speed = playerMovement.baseSpeed * playerMovement.runningAmplifier;
         }
-        else{
+        else
+        {
             playerMovement.speed = playerMovement.baseSpeed;
 
             playerMovement.forwardAndBackward = playerMovement.forwardAndBackward / 2.0f;
@@ -103,6 +104,7 @@ public class Player : MonoBehaviour
 
     public void GroundPlayer()
     {
+        Debug.Log(characterController.isGrounded);
         if (characterController.isGrounded)
         {
             airTime = 0;
@@ -112,10 +114,8 @@ public class Player : MonoBehaviour
             airTime += Time.deltaTime;
             Vector3 direction = playerMovement.normalizedDirection;
 
-            direction.y += 0.5f * gravity * airTime;
-
-            playerMovement.normalizedDirection = direction;
-            playerMovement.distance = playerMovement.normalizedDirection * airTime;
+            direction.y += 1f * gravity * airTime;
+            characterController.Move(direction * Time.deltaTime);
         }
     }
 
@@ -135,5 +135,10 @@ public class Player : MonoBehaviour
 
             transform.eulerAngles = rotation;
         }
+    }
+
+    public void Jump()
+    {
+        
     }
 }
