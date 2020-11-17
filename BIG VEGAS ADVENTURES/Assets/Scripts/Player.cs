@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private Rigidbody rg;
     public float baseSpeed;
     public float runningAmplifier;
 
@@ -14,8 +15,9 @@ public class Player : MonoBehaviour
 
     private float airTime;
     private float gravity = -9.81f;
-
+    private float jumpHeight = 1.0f; 
     private PlayerMovementInfo playerMovement;
+    bool jumping;
 
     // Start is called before the first frame update
     void Start()
@@ -38,15 +40,22 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (characterController.isGrounded && playerMovement.direction.y < 0)
+        {
+           // playerMovement.direction.y = 0f;
+        }
         ProcessInput();
-
         PerformBlendTreeAnimation();
 
         CalculateDirectionAndDistance();
-        PerformPhysicalMovement();
-
-        GroundPlayer();
-
+        if (!jumping)
+        {
+            PerformPhysicalMovement();
+        }
+        else
+        {
+            PerformJumpingMovement();
+        }
         RotatePlayerWithCamera();
     }
 
@@ -57,7 +66,7 @@ public class Player : MonoBehaviour
 
         playerMovement.movingForwards = playerMovement.forwardAndBackward > 0.0f;
         playerMovement.movingBackwards = playerMovement.forwardAndBackward < 0.0f;
-
+       
         bool running = (playerMovement.movingForwards && Input.GetKey(KeyCode.LeftShift))
         || (!playerMovement.movingBackwards && (playerMovement.leftAndRight > 0.0f || playerMovement.leftAndRight < 0.0f));
 
@@ -71,6 +80,7 @@ public class Player : MonoBehaviour
 
             playerMovement.forwardAndBackward = playerMovement.forwardAndBackward / 2.0f;
         }
+       
     }
 
     public void PerformBlendTreeAnimation()
@@ -95,28 +105,49 @@ public class Player : MonoBehaviour
         playerMovement.normalizedDirection = playerMovement.direction.normalized;
 
         playerMovement.distance = playerMovement.normalizedDirection * playerMovement.speed * Time.deltaTime;
+
+        GroundPlayer();
     }
 
     public void PerformPhysicalMovement()
     {
         characterController.Move(playerMovement.distance);
     }
+    public void PerformJumpingMovement()
+    {
+        characterController.Move(playerMovement.distance);
+        Debug.Log("Performed Jump");
+    }
 
     public void GroundPlayer()
     {
-        Debug.Log(characterController.isGrounded);
+        Vector3 direction = playerMovement.normalizedDirection;
         if (characterController.isGrounded)
         {
             airTime = 0;
+            direction.y = 0; 
+            if(Input.GetKey(KeyCode.Space))
+            {
+                jumping = true;
+                Debug.Log(jumping);
+                direction.y += Mathf.Sqrt(jumpHeight * -1000000.0f * gravity);
+                playerMovement.normalizedDirection = direction;
+                playerMovement.distance = playerMovement.normalizedDirection * Time.deltaTime;
+            }
         }
         else
         {
+            jumping = false;
+            Debug.Log(jumping);
             airTime += Time.deltaTime;
-            Vector3 direction = playerMovement.normalizedDirection;
+            direction.y += gravity * airTime;
+            playerMovement.normalizedDirection = direction;
+            playerMovement.distance = playerMovement.normalizedDirection * airTime;
 
-            direction.y += 1f * gravity * airTime;
-            characterController.Move(direction * Time.deltaTime);
         }
+        Debug.Log("is grounded" + characterController.isGrounded);
+        
+      
     }
 
     public void RotatePlayerWithCamera()
@@ -139,6 +170,13 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
+        /*  Debug.Log("Jumping");
+          Vector3 direction = playerMovement.normalizedDirection;
+          direction.y -= gravity * Time.deltaTime * 100;
+          characterController.Move(direction * Time.deltaTime);
+        */
+
         
     }
+
 }
