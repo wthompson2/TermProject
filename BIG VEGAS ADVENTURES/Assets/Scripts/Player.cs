@@ -15,10 +15,9 @@ public class Player : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
     private float gravity = -9.81f;
-    private float jumpHeight = 4f;
+    public float jumpHeight = 4f;
     private PlayerMovementInfo playerMovement;
     private CollisionFlags lastMove;
-    public bool groundHitYN = true;
     bool isGrounded;
     float velocityY;
     Vector3 airMovement;
@@ -154,6 +153,14 @@ public class Player : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("banana"))
+        {
+            PlayerInventory.Add(other.gameObject);
+        }
+        else if(other.CompareTag("Bread"))
+        {
+            PlayerInventory.Add(other.gameObject);
+        }
+        else if(other.CompareTag("Peanut Butter"))
         {
             PlayerInventory.Add(other.gameObject);
         }
