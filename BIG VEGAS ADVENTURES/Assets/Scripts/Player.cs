@@ -14,15 +14,14 @@ public class Player : MonoBehaviour
 
     private CharacterController characterController;
     private Animator animator;
-    private float airTime;
     private float gravity = -9.81f;
-    private float jumpHeight = 4f; 
+    private float jumpHeight = 4f;
     private PlayerMovementInfo playerMovement;
     private CollisionFlags lastMove;
     public bool groundHitYN = true;
     bool isGrounded;
     float velocityY;
-    Vector3 airMovement; 
+    Vector3 airMovement;
 
     // Start is called before the first frame update
     void Start()
@@ -32,25 +31,23 @@ public class Player : MonoBehaviour
         characterController.minMoveDistance = 0.0f;
         playerMovement = new PlayerMovementInfo();
         playerMovement.baseSpeed = baseSpeed;
-       playerMovement.runningAmplifier = runningAmplifier;
+        playerMovement.runningAmplifier = runningAmplifier;
 
         if (lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        airTime = 0;
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        isGrounded = characterController.isGrounded; 
-         
+        isGrounded = characterController.isGrounded;
+
         if (isGrounded && airMovement.y < 0)
         {
-           airMovement.y = 0f;
+            airMovement.y = 0f;
         }
         ProcessInput();
         PerformBlendTreeAnimation();
@@ -60,17 +57,17 @@ public class Player : MonoBehaviour
 
         PerformPhysicalMovement();
 
-        
+
         RotatePlayerWithCamera();
         airMovement.y += gravity * Time.deltaTime;
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
+            animator.SetBool("Jumping", true);
             airMovement.y += Mathf.Sqrt(-2 * gravity * jumpHeight);
-
-          
-
-            Debug.Log(airTime);
-
+        }
+        else
+        {
+            animator.SetBool("Jumping", false);
         }
         airMovement.y += gravity * Time.deltaTime;
         characterController.Move(airMovement * Time.deltaTime);
@@ -83,7 +80,7 @@ public class Player : MonoBehaviour
 
         playerMovement.movingForwards = playerMovement.forwardAndBackward > 0.0f;
         playerMovement.movingBackwards = playerMovement.forwardAndBackward < 0.0f;
-       
+
         bool running = (playerMovement.movingForwards && Input.GetKey(KeyCode.LeftShift))
         || (!playerMovement.movingBackwards && (playerMovement.leftAndRight > 0.0f || playerMovement.leftAndRight < 0.0f));
 
@@ -97,7 +94,7 @@ public class Player : MonoBehaviour
 
             playerMovement.forwardAndBackward = playerMovement.forwardAndBackward / 2.0f;
         }
-       
+
     }
 
     public void PerformBlendTreeAnimation()
@@ -117,21 +114,18 @@ public class Player : MonoBehaviour
     {
         Vector3 moveDirectionForward = transform.forward * playerMovement.forwardAndBackward;
         Vector3 moveDirectionSide = transform.right * playerMovement.leftAndRight;
-      
-       
+
+
         playerMovement.direction = moveDirectionForward + moveDirectionSide;
         playerMovement.normalizedDirection = playerMovement.direction.normalized;
 
-        playerMovement.distance = (playerMovement.normalizedDirection) * playerMovement.speed* Time.deltaTime;
-       
+        playerMovement.distance = (playerMovement.normalizedDirection) * playerMovement.speed * Time.deltaTime;
+
     }
 
     public void PerformPhysicalMovement()
     {
-        characterController.Move(playerMovement.distance );
-     
-       
-
+        characterController.Move(playerMovement.distance);
     }
 
 
@@ -153,6 +147,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+
 
 }
