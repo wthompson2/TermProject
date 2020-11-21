@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerInventory.Clear();
+        Debug.Log(PlayerInventory.isEmpty()); 
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         characterController.minMoveDistance = 0.0f;
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
+
 
     }
 
@@ -147,6 +150,13 @@ public class Player : MonoBehaviour
         }
     }
 
-
+    
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("banana"))
+        {
+            PlayerInventory.Add(other.gameObject);
+        }
+    }
 
 }
