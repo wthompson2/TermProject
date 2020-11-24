@@ -11,7 +11,8 @@ public class Player : MonoBehaviour
     float currentSpeed;
 
     public bool lockCursor;
-
+    int totalHealth = 3;
+    int currentHealth; 
     private CharacterController characterController;
     private Animator animator;
     private float gravity = -9.81f;
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
     private CollisionFlags lastMove;
     bool isGrounded;
     float velocityY;
+    bool dead; 
     Vector3 airMovement;
 
     // Start is called before the first frame update
@@ -33,12 +35,13 @@ public class Player : MonoBehaviour
         playerMovement = new PlayerMovementInfo();
         playerMovement.baseSpeed = baseSpeed;
         playerMovement.runningAmplifier = runningAmplifier;
+        currentHealth = totalHealth; 
 
         if (lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
-
+        
 
     }
 
@@ -58,7 +61,16 @@ public class Player : MonoBehaviour
 
 
         PerformPhysicalMovement();
-
+        if(currentHealth == 0)
+        {
+            playerMovement.baseSpeed = 0;
+            animator.SetBool("Dead", true); 
+        }
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            currentHealth--;
+            Debug.Log(currentHealth);
+        }
 
         RotatePlayerWithCamera();
         airMovement.y += gravity * Time.deltaTime;
@@ -163,6 +175,22 @@ public class Player : MonoBehaviour
         else if(other.CompareTag("Peanut Butter"))
         {
             PlayerInventory.Add(other.gameObject);
+        }
+        else if(other.CompareTag("Hair"))
+        {
+            if (currentHealth != totalHealth)
+            {
+                currentHealth = totalHealth;
+                other.gameObject.SetActive(false);
+            }
+        }
+        else if (other.CompareTag("HairSpray"))
+        {
+            if (currentHealth != 3)
+            {
+                currentHealth += 1;
+                other.gameObject.SetActive(false);
+            }
         }
     }
 
