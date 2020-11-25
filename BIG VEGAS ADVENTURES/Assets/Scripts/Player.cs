@@ -73,6 +73,16 @@ public class Player : MonoBehaviour
         }
 
         RotatePlayerWithCamera();
+
+        if (isGrounded && Input.GetMouseButtonDown(0))
+        {
+            animator.SetBool("isHitting", true);
+        }
+        else
+        {
+            animator.SetBool("isHitting", false);
+        }
+
         airMovement.y += gravity * Time.deltaTime;
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
