@@ -118,7 +118,6 @@ public class Player : MonoBehaviour
 
             playerMovement.forwardAndBackward = playerMovement.forwardAndBackward / 2.0f;
         }
-
     }
 
     public void PerformBlendTreeAnimation()
@@ -171,7 +170,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        {
+            if (hit.gameObject.CompareTag("Enemy"))
+            {
+                Debug.Log("hit by enemy");
+                currentHealth -= 3;
+            }
+        }
+    }
+
+
     public void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("banana"))
