@@ -21,21 +21,26 @@ public class Player : MonoBehaviour
     private CollisionFlags lastMove;
     bool isGrounded;
     float velocityY;
-    bool dead; 
+    bool dead;
+    float elastHit;
+    bool beenHit;
+    float lastHit;
+    float respawnTime = 0; 
     Vector3 airMovement;
-
+    Vector3 impact = Vector3.zero;
     // Start is called before the first frame update
     void Start()
     {
         PlayerInventory.Clear();
-        Debug.Log(PlayerInventory.isEmpty()); 
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         characterController.minMoveDistance = 0.0f;
         playerMovement = new PlayerMovementInfo();
         playerMovement.baseSpeed = baseSpeed;
         playerMovement.runningAmplifier = runningAmplifier;
-        currentHealth = totalHealth; 
+      
+        currentHealth = totalHealth;
+        lastHit = 0;
 
         if (lockCursor)
         {
@@ -48,6 +53,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(dead)
+        {
+            RespawnTimer(); 
+        }
+            
         isGrounded = characterController.isGrounded;
 
         if (isGrounded && airMovement.y < 0)
@@ -64,7 +74,8 @@ public class Player : MonoBehaviour
         if(currentHealth == 0)
         {
             playerMovement.baseSpeed = 0;
-            animator.SetBool("Dead", true); 
+            animator.SetBool("Dead", true);
+            dead = true;
         }
         if(Input.GetKeyDown(KeyCode.G))
         {
@@ -73,14 +84,31 @@ public class Player : MonoBehaviour
         }
 
         RotatePlayerWithCamera();
-
+ 
+        if (impact.magnitude > .2f)
+        {
+            
+            characterController.Move(impact * Time.deltaTime);
+        }
+        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+        if (beenHit)
+        {
+            lastHit += Time.deltaTime;
+            if (lastHit > 2)
+            {
+                beenHit = false;
+                lastHit = 0;
+            }
+        }
         if (isGrounded && Input.GetMouseButtonDown(0))
         {
             animator.SetBool("isHitting", true);
+            PlayerInventory.setHitting(true);
         }
         else
         {
             animator.SetBool("isHitting", false);
+            PlayerInventory.setHitting(false);
         }
 
         airMovement.y += gravity * Time.deltaTime;
@@ -95,6 +123,7 @@ public class Player : MonoBehaviour
         }
         airMovement.y += gravity * Time.deltaTime;
         characterController.Move(airMovement * Time.deltaTime);
+        
     }
 
     public void ProcessInput()
@@ -150,6 +179,16 @@ public class Player : MonoBehaviour
     {
         characterController.Move(playerMovement.distance);
     }
+    public void addKnockback(Vector3 dir, float force)
+    {
+        dir.Normalize();
+        if (dir.y < 0)
+        {
+            dir.y = -dir.y;
+        }
+        impact += dir.normalized * force;
+        impact.y += 10;
+    }
 
 
     public void RotatePlayerWithCamera()
@@ -173,10 +212,13 @@ public class Player : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         {
-            if (hit.gameObject.CompareTag("Enemy"))
+            if (hit.gameObject.CompareTag("Enemy") && !beenHit)
             {
-                Debug.Log("hit by enemy");
-                currentHealth -= 3;
+                currentHealth--;
+                Vector3 knockBackDistance = hit.transform.position;
+                knockBackDistance *= 3; 
+                addKnockback(knockBackDistance, 20);
+                beenHit = true; 
             }
         }
     }
@@ -211,6 +253,24 @@ public class Player : MonoBehaviour
                 currentHealth += 1;
                 other.gameObject.SetActive(false);
             }
+        }
+        else if (other.gameObject.CompareTag("Enemy") && !beenHit)
+        {
+            currentHealth--;
+            Vector3 knockBackDistance = other.gameObject.transform.position;
+            knockBackDistance *= 3;
+            addKnockback(knockBackDistance, 20);
+            beenHit = true;
+        }
+    }
+
+    public void RespawnTimer()
+    {
+        respawnTime += Time.deltaTime;
+        if (respawnTime > 3)
+        {
+            SceneController.Restart();
+
         }
     }
 

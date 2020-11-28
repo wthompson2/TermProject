@@ -5,6 +5,7 @@ using UnityEngine;
 public static class PlayerInventory 
 {
     private static List<GameObject> inventory = new List<GameObject>();
+    private static bool hitting;
     public static void Add(GameObject gameObject)
     {
         gameObject.SetActive(false);
@@ -21,5 +22,12 @@ public static class PlayerInventory
     {
         return inventory.Count == 0; 
     }
-    
+    public static bool getHitting()
+    {
+        return hitting; 
+    }
+    public static void setHitting(bool hit)
+    {
+        hitting = hit; 
+    }
 }
