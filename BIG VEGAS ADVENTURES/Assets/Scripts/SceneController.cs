@@ -6,24 +6,42 @@ using UnityEngine.SceneManagement;
 
 public static class SceneController 
 {
-    public static void SceneSwitch()
-    {
-        SceneManager.LoadScene(0);
-    }
+    // public static void SceneSwitch()
+    // {
+    //     SceneManager.LoadScene(0);
+    // }
 
-    public static void nextLevel()
-    {
-       
-        SceneManager.LoadScene(getCurrentSceneIndex() + 1);
-    }
+    // public static void nextLevel()
+    // {
+    //     SceneManager.LoadScene(getCurrentSceneIndex() + 1);
+    // }
 
     public static void Restart()
     {
-
         SceneManager.LoadScene(getCurrentSceneIndex());
     }
 
+    public static void GoToMenu(MenuName name)
+    {
+        switch (name)
+        {
+            case MenuName.Title:
+                SceneManager.LoadScene("TitleScene");
+                break;
 
+            case MenuName.Help:
+                SceneManager.LoadScene("HelpScene");
+                break;
+
+            case MenuName.Pause:
+                SceneManager.LoadScene("PauseScene");
+                break;
+
+            case MenuName.Play:
+                SceneManager.LoadScene("TestScene"); //change to actual name of level later
+                break;
+        }
+    }
 
     public static int getCurrentSceneIndex()
     {

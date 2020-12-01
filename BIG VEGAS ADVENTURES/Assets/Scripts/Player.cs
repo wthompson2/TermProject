@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     float currentSpeed;
 
     public bool lockCursor;
+
     int totalHealth = 3;
     int currentHealth; 
     private CharacterController characterController;
@@ -28,6 +29,11 @@ public class Player : MonoBehaviour
     float respawnTime = 0; 
     Vector3 airMovement;
     Vector3 impact = Vector3.zero;
+
+    // private static bool CameraDisabled = false;
+
+    // public GameObject pauseMenu;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +59,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     Instantiate(pauseMenu);
+        //     CameraDisabled = true;
+        // }
+
         if(dead)
         {
             RespawnTimer(); 
@@ -273,5 +285,10 @@ public class Player : MonoBehaviour
 
         }
     }
+
+    // public static void SetCameraDisabled(bool disabled)
+    // {
+    //     CameraDisabled = disabled;
+    // }
 
 }
