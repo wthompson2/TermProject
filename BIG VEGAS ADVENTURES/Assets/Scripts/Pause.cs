@@ -11,20 +11,26 @@ public class Pause : MonoBehaviour
 
     public void HandleResumeButtonOnClickEvent()
     {
+        Debug.Log("Resume is clicked");
         Time.timeScale = 1;
         Destroy(gameObject);
-        // Player.SetCameraDisabled(false);
+        
+
+        // Player.setLockCursor(false);
     }
 
     public void HandleRestartButtonOnClickEvent()
     {
+        Debug.Log("Restart is clicked");
         Time.timeScale = 1;
         Destroy(gameObject);
         SceneController.GoToMenu(MenuName.Play);
+        
     }
 
     public void HandleQuitButtonOnClickEvent()
     {
+        Debug.Log("Quit is clicked");
         Time.timeScale = 1;
         Destroy(gameObject);
         SceneController.GoToMenu(MenuName.Title);

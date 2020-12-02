@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     float currentSpeed;
 
-    public bool lockCursor;
+    public /*static*/ bool lockCursor;
 
     int totalHealth = 3;
     int currentHealth; 
@@ -27,12 +27,11 @@ public class Player : MonoBehaviour
     bool beenHit;
     float lastHit;
     float respawnTime = 0; 
+    bool paused = false;
     Vector3 airMovement;
     Vector3 impact = Vector3.zero;
 
-    // private static bool CameraDisabled = false;
-
-    // public GameObject pauseMenu;
+    public GameObject pauseMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -52,22 +51,33 @@ public class Player : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
-        
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Instantiate(pauseMenu);
+            // lockCursor = true;
+            // paused = true;
+        }
+
+        // if (paused)
         // {
-        //     Instantiate(pauseMenu);
-        //     CameraDisabled = true;
+        //     pauseMenu = GameObject.GetComponent<GameObject>();
+
+        //     if (Input.GetKeyDown(KeyCode.P))
+        //     {
+        //         pauseMenu.
+        //     }
         // }
 
         if(dead)
         {
-            RespawnTimer(); 
+            PlayerInventory.Clear();
+            RespawnTimer();
         }
             
         isGrounded = characterController.isGrounded;
@@ -286,9 +296,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    // public static void SetCameraDisabled(bool disabled)
+    // public static void setLockCursor(bool isLocked)
     // {
-    //     CameraDisabled = disabled;
+    //     lockCursor = isLocked;
     // }
-
 }

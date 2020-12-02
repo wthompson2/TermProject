@@ -209,7 +209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4823b515a67e36a4c9b7ed921b7c7094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 7849093366199951806, guid: 4ded5a8b7b9659e41bd232f715bc35b9, type: 3}
   player: {fileID: 1724240018}
 --- !u!4 &449663669
 Transform:
