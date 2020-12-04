@@ -39,7 +39,7 @@ public static class SceneController
                 break;
 
             case MenuName.Play:
-                SceneManager.LoadScene("TestScene"); //change to actual name of level later
+                SceneManager.LoadScene("Level1"); //change to actual name of level later
                 break;
         }
     }

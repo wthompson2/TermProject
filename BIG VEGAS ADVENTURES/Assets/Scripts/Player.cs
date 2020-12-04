@@ -26,8 +26,7 @@ public class Player : MonoBehaviour
     float elastHit;
     bool beenHit;
     float lastHit;
-    float respawnTime = 0; 
-    bool paused = false;
+    float respawnTime = 0;
     float completedTime;
     bool completed; 
     Vector3 airMovement;
@@ -62,19 +61,8 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             Instantiate(pauseMenu);
-            // lockCursor = true;
-            // paused = true;
+            Cursor.lockState = CursorLockMode.Confined;
         }
-
-        // if (paused)
-        // {
-        //     pauseMenu = GameObject.GetComponent<GameObject>();
-
-        //     if (Input.GetKeyDown(KeyCode.P))
-        //     {
-        //         pauseMenu.
-        //     }
-        // }
 
         if(dead)
         {
@@ -354,8 +342,4 @@ public class Player : MonoBehaviour
         return completed; 
         
     }
-    // public static void setLockCursor(bool isLocked)
-    // {
-    //     lockCursor = isLocked;
-    // }
 }

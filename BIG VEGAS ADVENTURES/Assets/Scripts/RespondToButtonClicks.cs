@@ -21,21 +21,4 @@ public class RespondToButtonClicks : MonoBehaviour
         UnityEngine.Debug.Log("Play button has been clicked.");
         SceneController.GoToMenu(MenuName.Play);
     }
-
-    // public void HandleQuitButtonOnClickEvent()
-    // {
-    //     UnityEngine.Debug.Log("Quit button has been clicked.");
-    //     SceneController.GoToMenu(MenuName.Title);
-    // }
-
-    // public void HandleRestartButtonOnClickEvent()
-    // {
-    //     UnityEngine.Debug.Log("Restart button has been clicked.");
-    //     SceneController.Restart();
-    // }
-
-    // public void HandleResumeButtonOnClickEvent()
-    // {
-    //     UnityEngine.Debug.Log("Resume button has been clicked.");
-    // }
 }

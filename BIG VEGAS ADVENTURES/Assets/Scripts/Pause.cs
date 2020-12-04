@@ -14,9 +14,7 @@ public class Pause : MonoBehaviour
         Debug.Log("Resume is clicked");
         Time.timeScale = 1;
         Destroy(gameObject);
-        
-
-        // Player.setLockCursor(false);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void HandleRestartButtonOnClickEvent()
@@ -25,7 +23,7 @@ public class Pause : MonoBehaviour
         Time.timeScale = 1;
         Destroy(gameObject);
         SceneController.GoToMenu(MenuName.Play);
-        
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void HandleQuitButtonOnClickEvent()
