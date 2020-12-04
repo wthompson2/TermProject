@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
     float lastHit;
     float respawnTime = 0; 
     bool paused = false;
+    float completedTime;
+    bool completed; 
     Vector3 airMovement;
     Vector3 impact = Vector3.zero;
 
@@ -79,7 +81,10 @@ public class Player : MonoBehaviour
             PlayerInventory.Clear();
             RespawnTimer();
         }
-            
+        if(completed)
+        {
+            completedTimer();
+        }
         isGrounded = characterController.isGrounded;
 
         if (isGrounded && airMovement.y < 0)
@@ -250,15 +255,20 @@ public class Player : MonoBehaviour
     {
         if(other.CompareTag("banana"))
         {
+          
             PlayerInventory.Add(other.gameObject);
+            checkAllCollected();
+
         }
         else if(other.CompareTag("Bread"))
         {
             PlayerInventory.Add(other.gameObject);
+            checkAllCollected();
         }
         else if(other.CompareTag("Peanut Butter"))
         {
             PlayerInventory.Add(other.gameObject);
+            checkAllCollected();
         }
         else if(other.CompareTag("Hair"))
         {
@@ -284,6 +294,10 @@ public class Player : MonoBehaviour
             addKnockback(knockBackDistance, 20);
             beenHit = true;
         }
+        else if(other.gameObject.CompareTag("DeadZone"))
+        {
+            dead = true; 
+        }
     }
 
     public void RespawnTimer()
@@ -295,7 +309,51 @@ public class Player : MonoBehaviour
 
         }
     }
+    public void completedTimer()
+    {
+        completedTime += Time.deltaTime;
+        if (completedTime > 3)
+        {
+            SceneController.nextLevel(); 
+        }
+    }
 
+    public bool checkAllCollected()
+    {
+        GameObject[] inventory = PlayerInventory.getInventory().ToArray();
+        bool hasBread = false;
+        bool hasBanana = false;
+        bool hasPB = false;
+        Debug.Log(inventory.Length);
+        if (inventory.Length == 3)
+        {
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                GameObject temp =(GameObject) inventory.GetValue(i);
+                Debug.Log(temp); 
+                if(temp.CompareTag("banana"))
+                {
+                    hasBanana = true; 
+                }
+                else if(temp.CompareTag("Bread"))
+                {
+                    hasBread = true; 
+                }
+                else if (temp.CompareTag("Peanut Butter"))
+                {
+                    hasPB = true;
+                }
+
+            }
+            
+            if(hasBread && hasPB && hasBanana)
+            {
+                completed =  true;
+            }
+        }
+        return completed; 
+        
+    }
     // public static void setLockCursor(bool isLocked)
     // {
     //     lockCursor = isLocked;

@@ -11,6 +11,7 @@ TagManager:
   - Bread
   - HairSpray
   - Enemy
+  - DeadZone
   layers:
   - Default
   - TransparentFX

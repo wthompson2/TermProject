@@ -9,12 +9,13 @@ public static class SceneController
     // public static void SceneSwitch()
     // {
     //     SceneManager.LoadScene(0);
-    // }
+     // }
 
-    // public static void nextLevel()
-    // {
-    //     SceneManager.LoadScene(getCurrentSceneIndex() + 1);
-    // }
+     public static void nextLevel()
+     {
+        Debug.Log("called"); 
+        SceneManager.LoadScene(getCurrentSceneIndex() + 1);
+     }
 
     public static void Restart()
     {
@@ -48,4 +49,5 @@ public static class SceneController
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         return currentSceneIndex;
     }
+
 }

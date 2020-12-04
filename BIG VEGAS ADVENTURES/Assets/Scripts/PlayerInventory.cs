@@ -4,12 +4,12 @@ using UnityEngine;
 
 public static class PlayerInventory 
 {
-    private static List<GameObject> inventory = new List<GameObject>();
+    public static List<GameObject> inventory = new List<GameObject>();
     private static bool hitting;
     public static void Add(GameObject gameObject)
     {
-        gameObject.SetActive(false);
         inventory.Add(gameObject);
+        gameObject.SetActive(false);
         Debug.Log("Added " + gameObject + " to inventory.");
     }
 
@@ -28,6 +28,11 @@ public static class PlayerInventory
     }
     public static void setHitting(bool hit)
     {
-        hitting = hit; 
+        hitting = hit;
+    }
+
+    public static List<GameObject> getInventory()
+    {
+        return inventory; 
     }
 }
