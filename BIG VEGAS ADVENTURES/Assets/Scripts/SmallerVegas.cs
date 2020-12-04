@@ -9,7 +9,7 @@ public class SmallerVegas : MonoBehaviour
 
     Transform target;
     NavMeshAgent agent;
-    AudioSource groan;
+    // AudioSource groan;
     Animator animator;
 
 
@@ -17,7 +17,7 @@ public class SmallerVegas : MonoBehaviour
     {
         target = PlayerManager.Instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
-        groan = GetComponent<AudioSource>();
+        // groan = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
 
     }

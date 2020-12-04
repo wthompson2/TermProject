@@ -6,6 +6,9 @@ public class PanCollision : MonoBehaviour
 {
     bool hitEnemy;
     float timePassed;
+
+    // public AudioClip hit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +36,6 @@ public class PanCollision : MonoBehaviour
             Debug.Log("hit enemy");
             hitEnemy = true;
             collision.transform.GetComponent<EnemyInfo>().decrementHealth();
-            
         }
     }
 }

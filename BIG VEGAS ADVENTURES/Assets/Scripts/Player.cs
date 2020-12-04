@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
     public float baseSpeed;
     public float runningAmplifier;
 
-
     float currentSpeed;
 
     public /*static*/ bool lockCursor;
@@ -34,6 +33,18 @@ public class Player : MonoBehaviour
 
     public GameObject pauseMenu;
 
+    public AudioClip run;
+    public AudioClip oof;
+    public AudioClip levelcomplete;
+    public AudioClip killed;
+    public AudioClip hitAudio;
+    public AudioClip item;
+    public AudioClip swing;
+    public AudioClip jump;
+    public AudioClip walk;
+
+    private AudioSource actionSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +64,8 @@ public class Player : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
+        actionSound = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -66,6 +79,7 @@ public class Player : MonoBehaviour
 
         if(dead)
         {
+            // actionSound.PlayOneShot(killed, 1.0f);
             PlayerInventory.Clear();
             RespawnTimer();
         }
@@ -94,6 +108,7 @@ public class Player : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.G))
         {
+            actionSound.PlayOneShot(oof, 1.0f);
             currentHealth--;
             Debug.Log(currentHealth);
         }
@@ -117,6 +132,7 @@ public class Player : MonoBehaviour
         }
         if (isGrounded && Input.GetMouseButtonDown(0))
         {
+            actionSound.PlayOneShot(swing, 1.0f);
             animator.SetBool("isHitting", true);
             PlayerInventory.setHitting(true);
         }
@@ -129,6 +145,7 @@ public class Player : MonoBehaviour
         airMovement.y += gravity * Time.deltaTime;
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
+            actionSound.PlayOneShot(jump, 1.0f);
             animator.SetBool("Jumping", true);
             airMovement.y += Mathf.Sqrt(-2 * gravity * jumpHeight);
         }
@@ -154,10 +171,13 @@ public class Player : MonoBehaviour
 
         if (running)
         {
+            // actionSound.PlayOneShot(run, 1.0f);
             playerMovement.speed = playerMovement.baseSpeed * playerMovement.runningAmplifier;
         }
         else
         {
+            // actionSound.PlayOneShot(walk, 1.0f);
+
             playerMovement.speed = playerMovement.baseSpeed;
 
             playerMovement.forwardAndBackward = playerMovement.forwardAndBackward / 2.0f;
@@ -229,6 +249,7 @@ public class Player : MonoBehaviour
         {
             if (hit.gameObject.CompareTag("Enemy") && !beenHit)
             {
+                actionSound.PlayOneShot(oof, 1.0f);
                 currentHealth--;
                 Vector3 knockBackDistance = hit.transform.position;
                 knockBackDistance *= 3; 
@@ -336,6 +357,7 @@ public class Player : MonoBehaviour
             
             if(hasBread && hasPB && hasBanana)
             {
+                actionSound.PlayOneShot(levelcomplete, 1.0f);
                 completed =  true;
             }
         }

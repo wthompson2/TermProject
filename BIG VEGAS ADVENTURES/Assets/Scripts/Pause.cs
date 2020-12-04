@@ -22,7 +22,7 @@ public class Pause : MonoBehaviour
         Debug.Log("Restart is clicked");
         Time.timeScale = 1;
         Destroy(gameObject);
-        SceneController.GoToMenu(MenuName.Play);
+        SceneController.Restart();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
