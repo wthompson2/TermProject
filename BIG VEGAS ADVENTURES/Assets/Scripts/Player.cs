@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
     bool playedDeathSound = false;
     bool playedWalkingSound = false;
     bool playedRunningSound = false;
+    bool continuouslyWalking = false;
+    bool continuouslyRunning = false;
 
     public GameObject pauseMenu;
 
@@ -183,20 +185,44 @@ public class Player : MonoBehaviour
         bool running = (playerMovement.movingForwards && Input.GetKey(KeyCode.LeftShift))
         || (!playerMovement.movingBackwards && (playerMovement.leftAndRight > 0.0f || playerMovement.leftAndRight < 0.0f));
 
+        bool walking = (playerMovement.movingForwards && !Input.GetKey(KeyCode.LeftShift)) || playerMovement.movingBackwards;
+
         if (running)
         {
+            if (!actionSound.isPlaying && isGrounded && continuouslyRunning)
+            {
+                actionSound.PlayOneShot(run, 0.5f);
+            }
+
+            if (actionSound.isPlaying && isGrounded && !playedRunningSound)
+            {
+                actionSound.Stop();
+            }
+
             if (!playedRunningSound && isGrounded)
             {
                 actionSound.PlayOneShot(run, 0.5f);
                 playedRunningSound = true;
             }
 
-
-
             playerMovement.speed = playerMovement.baseSpeed * playerMovement.runningAmplifier;
+
+            playedWalkingSound = false;
+            continuouslyWalking = false;
+            continuouslyRunning = true;
         }
-        else
+        else if (walking)
         {
+            if (!actionSound.isPlaying && isGrounded && continuouslyWalking)
+            {
+                actionSound.PlayOneShot(walk, 0.5f);
+            }
+
+            if (actionSound.isPlaying && isGrounded && !playedWalkingSound)
+            {
+                actionSound.Stop();
+            }
+
             if (!playedWalkingSound && (playerMovement.movingForwards || playerMovement.movingBackwards) && isGrounded)
             {
                 actionSound.PlayOneShot(walk, 0.5f);
@@ -206,16 +232,25 @@ public class Player : MonoBehaviour
             playerMovement.speed = playerMovement.baseSpeed;
 
             playerMovement.forwardAndBackward = playerMovement.forwardAndBackward / 2.0f;
+
+            playedRunningSound = false;
+            continuouslyRunning = false;
+            continuouslyWalking = true;
+        }
+        else
+        {
+            actionSound.Stop();
+            continuouslyRunning = false;
+            continuouslyWalking = false;
         }
 
         if (!running)
         {
             playedRunningSound = false;
         }
-        if (!playerMovement.movingForwards && !playerMovement.movingBackwards)
+        if (!walking)
         {
             playedWalkingSound = false;
-            actionSound.Stop();
         }
 
     }
