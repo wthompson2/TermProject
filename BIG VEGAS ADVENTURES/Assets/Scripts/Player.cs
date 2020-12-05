@@ -7,8 +7,6 @@ public class Player : MonoBehaviour
     public float baseSpeed;
     public float runningAmplifier;
 
-    float currentSpeed;
-
     public /*static*/ bool lockCursor;
 
     int totalHealth = 3;
@@ -18,16 +16,14 @@ public class Player : MonoBehaviour
     private float gravity = -9.81f;
     public float jumpHeight = 4f;
     private PlayerMovementInfo playerMovement;
-    private CollisionFlags lastMove;
     bool isGrounded;
-    float velocityY;
     bool dead;
-    float elastHit;
     bool beenHit;
     float lastHit;
     float respawnTime = 0;
     float completedTime;
-    bool completed; 
+    bool completed;
+    float lastAttack;
     Vector3 airMovement;
     Vector3 impact = Vector3.zero;
 
@@ -55,7 +51,7 @@ public class Player : MonoBehaviour
         playerMovement = new PlayerMovementInfo();
         playerMovement.baseSpeed = baseSpeed;
         playerMovement.runningAmplifier = runningAmplifier;
-      
+        PlayerInventory.setHitting(false); 
         currentHealth = totalHealth;
         lastHit = 0;
 
@@ -132,14 +128,24 @@ public class Player : MonoBehaviour
         }
         if (isGrounded && Input.GetMouseButtonDown(0))
         {
-            actionSound.PlayOneShot(swing, 1.0f);
-            animator.SetBool("isHitting", true);
+            actionSound.PlayOneShot(swing, .5f);
             PlayerInventory.setHitting(true);
+            animator.SetBool("isHitting", true);
+            
         }
         else
         {
             animator.SetBool("isHitting", false);
-            PlayerInventory.setHitting(false);
+            if (lastAttack > 1)
+            {
+                PlayerInventory.setHitting(false);
+                lastAttack = 0;
+            }
+            if (PlayerInventory.getHitting())
+            {
+                lastAttack += Time.deltaTime;
+                    }
+            Debug.Log(PlayerInventory.getHitting());
         }
 
         airMovement.y += gravity * Time.deltaTime;

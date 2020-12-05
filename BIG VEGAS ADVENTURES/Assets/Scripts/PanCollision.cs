@@ -31,11 +31,16 @@ public class PanCollision : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && !hitEnemy)
+        if (collision.gameObject.CompareTag("Enemy") && !hitEnemy && PlayerInventory.getHitting())
         {
             Debug.Log("hit enemy");
             hitEnemy = true;
-            collision.transform.GetComponent<EnemyInfo>().decrementHealth();
+            collision.gameObject.GetComponent<EnemyInfo>().decrementHealth();
+            
+        }
+        if(collision.gameObject.CompareTag("Destructable") && PlayerInventory.getHitting())
+        {
+            collision.gameObject.SetActive(false); 
         }
     }
 }

@@ -12,6 +12,7 @@ TagManager:
   - HairSpray
   - Enemy
   - DeadZone
+  - Destructable
   layers:
   - Default
   - TransparentFX
