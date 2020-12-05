@@ -4,7 +4,7 @@ using UnityEngine;
 
 public  class EnemyInfo : MonoBehaviour
 {
-    public static int health = 2;
+    public int health = 2;
     public bool dead;
     private void Start()
     {

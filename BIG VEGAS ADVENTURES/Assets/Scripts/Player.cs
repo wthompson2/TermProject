@@ -156,7 +156,7 @@ public class Player : MonoBehaviour
             {
                 lastAttack += Time.deltaTime;
                     }
-            Debug.Log(PlayerInventory.getHitting());
+           // Debug.Log(PlayerInventory.getHitting());
         }
 
         airMovement.y += gravity * Time.deltaTime;
