@@ -370,14 +370,7 @@ public class Player : MonoBehaviour
                 other.gameObject.SetActive(false);
             }
         }
-        else if (other.gameObject.CompareTag("Enemy") && !beenHit)
-        {
-            currentHealth--;
-            Vector3 knockBackDistance = other.gameObject.transform.position;
-            knockBackDistance *= 3;
-            addKnockback(knockBackDistance, 20);
-            beenHit = true;
-        }
+     
         else if(other.gameObject.CompareTag("DeadZone"))
         {
             dead = true; 
