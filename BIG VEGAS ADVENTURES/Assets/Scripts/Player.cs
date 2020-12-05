@@ -7,7 +7,9 @@ public class Player : MonoBehaviour
     public float baseSpeed;
     public float runningAmplifier;
 
-    public /*static*/ bool lockCursor;
+    float currentSpeed;
+
+    public bool lockCursor;
 
     int totalHealth = 3;
     int currentHealth; 
@@ -26,6 +28,9 @@ public class Player : MonoBehaviour
     float lastAttack;
     Vector3 airMovement;
     Vector3 impact = Vector3.zero;
+    bool playedDeathSound = false;
+    bool playedWalkingSound = false;
+    bool playedRunningSound = false;
 
     public GameObject pauseMenu;
 
@@ -33,7 +38,6 @@ public class Player : MonoBehaviour
     public AudioClip oof;
     public AudioClip levelcomplete;
     public AudioClip killed;
-    public AudioClip hitAudio;
     public AudioClip item;
     public AudioClip swing;
     public AudioClip jump;
@@ -98,13 +102,18 @@ public class Player : MonoBehaviour
         PerformPhysicalMovement();
         if(currentHealth == 0)
         {
+            if (!playedDeathSound)
+            {
+                playedDeathSound = true;
+                actionSound.PlayOneShot(killed, 0.5f);
+            }
             playerMovement.baseSpeed = 0;
             animator.SetBool("Dead", true);
             dead = true;
         }
         if(Input.GetKeyDown(KeyCode.G))
         {
-            actionSound.PlayOneShot(oof, 1.0f);
+            actionSound.PlayOneShot(oof, 0.5f);
             currentHealth--;
             Debug.Log(currentHealth);
         }
@@ -151,7 +160,7 @@ public class Player : MonoBehaviour
         airMovement.y += gravity * Time.deltaTime;
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            actionSound.PlayOneShot(jump, 1.0f);
+            actionSound.PlayOneShot(jump, 0.3f);
             animator.SetBool("Jumping", true);
             airMovement.y += Mathf.Sqrt(-2 * gravity * jumpHeight);
         }
@@ -161,7 +170,6 @@ public class Player : MonoBehaviour
         }
         airMovement.y += gravity * Time.deltaTime;
         characterController.Move(airMovement * Time.deltaTime);
-        
     }
 
     public void ProcessInput()
@@ -177,17 +185,39 @@ public class Player : MonoBehaviour
 
         if (running)
         {
-            // actionSound.PlayOneShot(run, 1.0f);
+            if (!playedRunningSound && isGrounded)
+            {
+                actionSound.PlayOneShot(run, 0.5f);
+                playedRunningSound = true;
+            }
+
+
+
             playerMovement.speed = playerMovement.baseSpeed * playerMovement.runningAmplifier;
         }
         else
         {
-            // actionSound.PlayOneShot(walk, 1.0f);
+            if (!playedWalkingSound && (playerMovement.movingForwards || playerMovement.movingBackwards) && isGrounded)
+            {
+                actionSound.PlayOneShot(walk, 0.5f);
+                playedWalkingSound = true;
+            }
 
             playerMovement.speed = playerMovement.baseSpeed;
 
             playerMovement.forwardAndBackward = playerMovement.forwardAndBackward / 2.0f;
         }
+
+        if (!running)
+        {
+            playedRunningSound = false;
+        }
+        if (!playerMovement.movingForwards && !playerMovement.movingBackwards)
+        {
+            playedWalkingSound = false;
+            actionSound.Stop();
+        }
+
     }
 
     public void PerformBlendTreeAnimation()
@@ -255,7 +285,7 @@ public class Player : MonoBehaviour
         {
             if (hit.gameObject.CompareTag("Enemy") && !beenHit)
             {
-                actionSound.PlayOneShot(oof, 1.0f);
+                actionSound.PlayOneShot(oof, 0.5f);
                 currentHealth--;
                 Vector3 knockBackDistance = hit.transform.position;
                 knockBackDistance *= 3; 
@@ -270,18 +300,20 @@ public class Player : MonoBehaviour
     {
         if(other.CompareTag("banana"))
         {
-          
+            actionSound.PlayOneShot(item, 0.5f);
             PlayerInventory.Add(other.gameObject);
             checkAllCollected();
 
         }
         else if(other.CompareTag("Bread"))
         {
+            actionSound.PlayOneShot(item, 0.5f);
             PlayerInventory.Add(other.gameObject);
             checkAllCollected();
         }
         else if(other.CompareTag("Peanut Butter"))
         {
+            actionSound.PlayOneShot(item, 0.5f);
             PlayerInventory.Add(other.gameObject);
             checkAllCollected();
         }
@@ -289,6 +321,7 @@ public class Player : MonoBehaviour
         {
             if (currentHealth != totalHealth)
             {
+                actionSound.PlayOneShot(item, 0.5f);
                 currentHealth = totalHealth;
                 other.gameObject.SetActive(false);
             }
@@ -297,6 +330,7 @@ public class Player : MonoBehaviour
         {
             if (currentHealth != 3)
             {
+                actionSound.PlayOneShot(item, 0.5f);
                 currentHealth += 1;
                 other.gameObject.SetActive(false);
             }
@@ -321,6 +355,7 @@ public class Player : MonoBehaviour
         if (respawnTime > 3)
         {
             SceneController.Restart();
+            playedDeathSound = false;
 
         }
     }

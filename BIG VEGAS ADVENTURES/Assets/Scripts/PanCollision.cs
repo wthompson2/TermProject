@@ -7,12 +7,16 @@ public class PanCollision : MonoBehaviour
     bool hitEnemy;
     float timePassed;
 
-    // public AudioClip hit;
+    public AudioClip hit;
+    public AudioClip destroy;
+
+    private AudioSource actionSound;
 
     // Start is called before the first frame update
     void Start()
     {
         hitEnemy = false;
+        actionSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -20,6 +24,8 @@ public class PanCollision : MonoBehaviour
     {
         if(hitEnemy)
         {
+            //actionSound.PlayOneShot(hit, 0.3f);
+
             if(timePassed > 1)
             {
                 hitEnemy = false;
@@ -33,6 +39,7 @@ public class PanCollision : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && !hitEnemy && PlayerInventory.getHitting())
         {
+            actionSound.PlayOneShot(hit, 0.3f);
             Debug.Log("hit enemy");
             hitEnemy = true;
             collision.gameObject.GetComponent<EnemyInfo>().decrementHealth();
@@ -40,6 +47,7 @@ public class PanCollision : MonoBehaviour
         }
         if(collision.gameObject.CompareTag("Destructable") && PlayerInventory.getHitting())
         {
+            actionSound.PlayOneShot(destroy, 0.3f);
             collision.gameObject.SetActive(false); 
         }
     }
