@@ -1015,6 +1015,7 @@ MonoBehaviour:
   lockCursor: 1
   jumpHeight: 5
   pauseMenu: {fileID: 7849093366199951806, guid: 4ded5a8b7b9659e41bd232f715bc35b9, type: 3}
+  healthScript: {fileID: 0}
   run: {fileID: 8300000, guid: c47561c130f345641a129f6aa8208457, type: 3}
   oof: {fileID: 8300000, guid: e7c5c88a87c84f545a607549ac0cd1ec, type: 3}
   levelcomplete: {fileID: 8300000, guid: 754f4c93938ec584ea3938ee385d9a2d, type: 3}

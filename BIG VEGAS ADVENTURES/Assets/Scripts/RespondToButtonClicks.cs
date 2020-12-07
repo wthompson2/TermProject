@@ -27,4 +27,10 @@ public class RespondToButtonClicks : MonoBehaviour
         UnityEngine.Debug.Log("Quit button has been clicked.");
         SceneController.GoToMenu(MenuName.Title);
     }
+
+    public void HandleEndButtonOnClickEvent()
+    {
+        UnityEngine.Debug.Log("Quit button has been clicked.");
+        Application.Quit();
+    }
 }
