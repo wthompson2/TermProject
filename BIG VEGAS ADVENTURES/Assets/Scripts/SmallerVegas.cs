@@ -41,8 +41,12 @@ public class SmallerVegas : MonoBehaviour
 
         if (distance <= agent.stoppingDistance)
         {
-            animator.SetFloat("forward", 0.0f);
+            animator.SetBool("svIsTrue", true);
             FaceTarget();
+        }
+        else
+        {
+            animator.SetBool("svIsTrue", false);
         }
     }
 
