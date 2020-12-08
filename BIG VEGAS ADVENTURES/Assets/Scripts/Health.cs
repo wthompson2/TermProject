@@ -8,12 +8,12 @@ public class Health : MonoBehaviour
     public GameObject Health2;
     public GameObject Health3;
 
-    private GameObject parentObject;
+    // private GameObject parentObject;
 
     void Start()
     {
         // parentObject = this.gameObject;
-        parentObject.transform.SetParent(this.transform);
+        this.transform.SetParent(this.transform);
     }
 
     public void HandleHealthDepletion(int health)
@@ -40,7 +40,7 @@ public class Health : MonoBehaviour
         {
             if (i == 1)
             {
-                parentObject = Instantiate(Health2);
+                Instantiate(Health2);
                 Debug.Log("Health Gained");
                 if (item == 0)
                 {
@@ -49,7 +49,7 @@ public class Health : MonoBehaviour
             }
             if (i == 2)
             {
-                parentObject = Instantiate(Health3);
+                Instantiate(Health3);
                 Debug.Log("Health Gained");
                 if (item == 0)
                 {
@@ -57,20 +57,6 @@ public class Health : MonoBehaviour
                 }
             }
         }
-
-        // if (previous == 1 && current == 2)
-        // {
-        //     Instantiate(Health2);
-        // }
-        // if (previous == 2 && current == 3)
-        // {
-        //     Instantiate(Health3);
-        // }
-        // if (previous == 1 && current == 3)
-        // {
-        //     Instantiate(Health2);
-        //     Instantiate(Health3);
-        // }
     }
 
     public void HandleHealthRespawn()

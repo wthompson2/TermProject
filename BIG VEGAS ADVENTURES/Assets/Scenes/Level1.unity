@@ -416,7 +416,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5813646050320706549, guid: a6c8eb480eaed19449deb35f81cdc2d6, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6279285868786514640, guid: a6c8eb480eaed19449deb35f81cdc2d6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -837,6 +837,74 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &631408981
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6502918140000949011, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_Name
+      value: RunningWalkingAudio
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.3827443
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.512938
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 11.878708
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_RootOrder
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502918140000949014, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+--- !u!114 &631408982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6502918140000949012, guid: 918d3834cc26e7c45b46ef0cddfcd50e, type: 3}
+  m_PrefabInstance: {fileID: 631408981}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de93a83c2a231c3498857c52db3a08b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &651146770 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8964458947581771149, guid: ea47dca720723a74892ef74148590b9a, type: 3}
@@ -1874,6 +1942,10 @@ PrefabInstance:
       propertyPath: healthScript
       value: 
       objectReference: {fileID: 1208512932}
+    - target: {fileID: 2740491098297706294, guid: 7a2da1c5a42a03f438afcd4e060361a0, type: 3}
+      propertyPath: runningWalking
+      value: 
+      objectReference: {fileID: 631408982}
     - target: {fileID: 3083074532348080470, guid: 7a2da1c5a42a03f438afcd4e060361a0, type: 3}
       propertyPath: m_Name
       value: bigvegas

@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public float jumpHeight = 4f;
     private PlayerMovementInfo playerMovement;
     bool isGrounded;
+    bool jumping = false;
     bool dead;
     bool beenHit;
     float lastHit;
@@ -38,15 +39,16 @@ public class Player : MonoBehaviour
     public GameObject pauseMenu;
     // public GameObject healthUI;
     public Health healthScript;
+    public RunningWalkingAudio runningWalking;
 
-    public AudioClip run;
+    // public AudioClip run;
     public AudioClip oof;
     public AudioClip levelcomplete;
     public AudioClip killed;
     public AudioClip item;
     public AudioClip swing;
     public AudioClip jump;
-    public AudioClip walk;
+    // public AudioClip walk;
 
     private AudioSource actionSound;
 
@@ -70,6 +72,7 @@ public class Player : MonoBehaviour
         }
 
         actionSound = GetComponent<AudioSource>();
+        runningWalking.StartActionSound();
     }
 
     // Update is called once per frame
@@ -167,11 +170,13 @@ public class Player : MonoBehaviour
         {
             actionSound.PlayOneShot(jump, 0.3f);
             animator.SetBool("Jumping", true);
+            jumping = true;
             airMovement.y += Mathf.Sqrt(-2 * gravity * jumpHeight);
         }
         else
         {
             animator.SetBool("Jumping", false);
+            jumping = false;
         }
         airMovement.y += gravity * Time.deltaTime;
         characterController.Move(airMovement * Time.deltaTime);
@@ -194,17 +199,17 @@ public class Player : MonoBehaviour
         {
             if (!actionSound.isPlaying && isGrounded && continuouslyRunning)
             {
-                actionSound.PlayOneShot(run, 0.5f);
+                runningWalking.PlayMovementAudio(1, continuouslyRunning, continuouslyWalking, playedRunningSound, playedWalkingSound); // actionSound.PlayOneShot(run, 0.5f);
             }
 
-            if (actionSound.isPlaying && isGrounded && !playedRunningSound)
+            if (actionSound.isPlaying && isGrounded && !playedRunningSound && !jumping)
             {
-                actionSound.Stop();
+                runningWalking.PlayMovementAudio(-1, continuouslyRunning, continuouslyWalking, playedRunningSound, playedWalkingSound); // actionSound.Stop();
             }
 
             if (!playedRunningSound && isGrounded)
             {
-                actionSound.PlayOneShot(run, 0.5f);
+                runningWalking.PlayMovementAudio(1, continuouslyRunning, continuouslyWalking, playedRunningSound, playedWalkingSound); // actionSound.PlayOneShot(run, 0.5f);
                 playedRunningSound = true;
             }
 
@@ -218,17 +223,17 @@ public class Player : MonoBehaviour
         {
             if (!actionSound.isPlaying && isGrounded && continuouslyWalking)
             {
-                actionSound.PlayOneShot(walk, 0.5f);
+                runningWalking.PlayMovementAudio(0, continuouslyRunning, continuouslyWalking, playedRunningSound, playedWalkingSound); // actionSound.PlayOneShot(walk, 0.5f);
             }
 
-            if (actionSound.isPlaying && isGrounded && !playedWalkingSound)
+            if (actionSound.isPlaying && isGrounded && !playedWalkingSound && !jumping)
             {
-                actionSound.Stop();
+                runningWalking.PlayMovementAudio(-1, continuouslyRunning, continuouslyWalking, playedRunningSound, playedWalkingSound); // actionSound.Stop();
             }
 
             if (!playedWalkingSound && (playerMovement.movingForwards || playerMovement.movingBackwards) && isGrounded)
             {
-                actionSound.PlayOneShot(walk, 0.5f);
+                runningWalking.PlayMovementAudio(0, continuouslyRunning, continuouslyWalking, playedRunningSound, playedWalkingSound); // actionSound.PlayOneShot(walk, 0.5f);
                 playedWalkingSound = true;
             }
 
@@ -242,7 +247,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            actionSound.Stop();
+            runningWalking.PlayMovementAudio(-1, continuouslyRunning, continuouslyWalking, playedRunningSound, playedWalkingSound); // actionSound.Stop();
             continuouslyRunning = false;
             continuouslyWalking = false;
         }
