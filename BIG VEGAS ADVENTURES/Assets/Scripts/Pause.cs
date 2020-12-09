@@ -32,5 +32,6 @@ public class Pause : MonoBehaviour
         Time.timeScale = 1;
         Destroy(gameObject);
         SceneController.GoToMenu(MenuName.Title);
+        GameObject.FindGameObjectWithTag("GameTheme").GetComponent<Music>().StopMusic();
     }
 }

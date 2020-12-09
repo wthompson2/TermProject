@@ -20,12 +20,14 @@ public class RespondToButtonClicks : MonoBehaviour
     {
         UnityEngine.Debug.Log("Play button has been clicked.");
         SceneController.GoToMenu(MenuName.Play);
+        GameObject.FindGameObjectWithTag("TitleTheme").GetComponent<Music>().StopMusic();
     }
 
     public void HandleQuitButtonOnClickEvent()
     {
         UnityEngine.Debug.Log("Quit button has been clicked.");
         SceneController.GoToMenu(MenuName.Title);
+        GameObject.FindGameObjectWithTag("EndTheme").GetComponent<Music>().StopMusic();
     }
 
     public void HandleEndButtonOnClickEvent()
