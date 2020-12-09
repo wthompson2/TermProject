@@ -368,7 +368,7 @@ public class Player : MonoBehaviour
                 actionSound.PlayOneShot(item, 0.5f);
                 previousHealth = currentHealth;
                 currentHealth = totalHealth;
-                healthScript.HandleHealthGained(currentHealth, 1); // 0 is hairspray and 1 is hair
+                healthScript.HandleHealthGained(previousHealth, 1); // 0 is hairspray and 1 is hair
                 other.gameObject.SetActive(false);
             }
         }
@@ -379,7 +379,7 @@ public class Player : MonoBehaviour
                 actionSound.PlayOneShot(item, 0.5f);
                 previousHealth = currentHealth;
                 currentHealth += 1;
-                healthScript.HandleHealthGained(currentHealth, 0); // 0 is hairspray and 1 is hair
+                healthScript.HandleHealthGained(previousHealth, 0); // 0 is hairspray and 1 is hair
                 other.gameObject.SetActive(false);
             }
         }
@@ -397,7 +397,7 @@ public class Player : MonoBehaviour
         {
             SceneController.Restart();
             playedDeathSound = false;
-            healthScript.HandleHealthRespawn();
+            healthScript.HandleHealthRespawn(currentHealth);
         }
     }
     public void completedTimer()
@@ -405,8 +405,8 @@ public class Player : MonoBehaviour
         completedTime += Time.deltaTime;
         if (completedTime > 3)
         {
+            healthScript.HandleHealthRespawn(currentHealth);
             SceneController.nextLevel();
-            healthScript.HandleHealthRespawn();
         }
     }
 
@@ -443,7 +443,6 @@ public class Player : MonoBehaviour
                 actionSound.PlayOneShot(levelcomplete, 1.0f);
                 completed =  true;
                 Cursor.lockState = CursorLockMode.Confined;
-                // healthScript.HandleHealthRespawn();
             }
         }
         return completed; 

@@ -6,71 +6,72 @@ public class Health : MonoBehaviour
 {
     public GameObject Health1;
     public GameObject Health2;
-    public GameObject Health3;
+    public GameObject HealthFull;
 
-    // private GameObject parentObject;
+    private GameObject clone1;
+    private GameObject clone2;
+    private GameObject cloneFull;
 
     void Start()
     {
-        // parentObject = this.gameObject;
-        this.transform.SetParent(this.transform);
+        cloneFull = (GameObject)Instantiate (HealthFull, transform.position, Quaternion.identity);
     }
 
     public void HandleHealthDepletion(int health)
     {
         if (health == 2)
         {
-            Destroy(this.transform.GetChild(2).gameObject);
+            Destroy(cloneFull);
+            clone2 = (GameObject)Instantiate (Health2, transform.position, Quaternion.identity);
         }
 
         if (health == 1)
         {
-            Destroy(this.transform.GetChild(1).gameObject);
+            Destroy(clone2);
+            clone1 = (GameObject)Instantiate (Health1, transform.position, Quaternion.identity);
         }
 
         if (health == 0)
         {
-            Destroy(this.transform.GetChild(0).gameObject);
+            Destroy(clone1);
         }
     }
 
     public void HandleHealthGained(int current, int item) // 0 is hairspray and 1 is hair
     {
-        for (int i = 1; i <= 2; i++)
+        if (current == 1)
         {
-            if (i == 1)
-            {
-                Instantiate(Health2);
-                Debug.Log("Health Gained");
-                if (item == 0)
-                {
-                    break;
-                }
-            }
-            if (i == 2)
-            {
-                Instantiate(Health3);
-                Debug.Log("Health Gained");
-                if (item == 0)
-                {
-                    break;
-                }
-            }
-        }
-    }
+            Destroy(clone1);
 
-    public void HandleHealthRespawn()
-    {
-        for (int i = 0; i <= 2; i++)
-        {
-            if (this.transform.GetChild(i) == null)
+            if (item == 0)
             {
-                break;
+                clone2 = (GameObject)Instantiate (Health2, transform.position, Quaternion.identity);
             }
             else
             {
-                Destroy(this.transform.GetChild(i).gameObject);
+                cloneFull = (GameObject)Instantiate (HealthFull, transform.position, Quaternion.identity);
             }
+        }
+        if (current == 2)
+        {
+            Destroy(clone2);
+            cloneFull = (GameObject)Instantiate (HealthFull, transform.position, Quaternion.identity);
+        }
+    }
+
+    public void HandleHealthRespawn(int currentHealth)
+    {
+        if (currentHealth == 3)
+        {
+            Destroy(cloneFull);
+        }
+        else if (currentHealth == 2)
+        {
+            Destroy(clone2);
+        }
+        else if (currentHealth == 1)
+        {
+            Destroy(clone1);
         }
     }
 }
