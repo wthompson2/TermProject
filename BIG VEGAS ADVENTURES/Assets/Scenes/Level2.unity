@@ -1711,6 +1711,10 @@ PrefabInstance:
       propertyPath: runningWalking
       value: 
       objectReference: {fileID: 330434163}
+    - target: {fileID: 2740491098875418665, guid: 7a2da1c5a42a03f438afcd4e060361a0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.8
+      objectReference: {fileID: 0}
     - target: {fileID: 3083074532348080470, guid: 7a2da1c5a42a03f438afcd4e060361a0, type: 3}
       propertyPath: m_Name
       value: bigvegas

@@ -1016,14 +1016,13 @@ MonoBehaviour:
   jumpHeight: 5
   pauseMenu: {fileID: 7849093366199951806, guid: 4ded5a8b7b9659e41bd232f715bc35b9, type: 3}
   healthScript: {fileID: 0}
-  run: {fileID: 8300000, guid: c47561c130f345641a129f6aa8208457, type: 3}
+  runningWalking: {fileID: 0}
   oof: {fileID: 8300000, guid: e7c5c88a87c84f545a607549ac0cd1ec, type: 3}
   levelcomplete: {fileID: 8300000, guid: 754f4c93938ec584ea3938ee385d9a2d, type: 3}
   killed: {fileID: 8300000, guid: 31e8c4b815ef9db4cbf0ea05b4c1fa5a, type: 3}
   item: {fileID: 8300000, guid: 2aae09dd5ad902c4aaa99ad0534d03c9, type: 3}
   swing: {fileID: 8300000, guid: 5c60322ce66368e4c8c0eaa131400648, type: 3}
   jump: {fileID: 8300000, guid: 9f26da6d0c8360d44b08646de8054771, type: 3}
-  walk: {fileID: 8300000, guid: 5ddd42f73e77bdb469184469b8c1dd79, type: 3}
 --- !u!1 &3105879582111534592
 GameObject:
   m_ObjectHideFlags: 0
