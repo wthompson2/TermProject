@@ -6,6 +6,7 @@ public  class EnemyInfo : MonoBehaviour
 {
     public int health = 2;
     public bool dead;
+
     private void Start()
     {
         dead = false;
